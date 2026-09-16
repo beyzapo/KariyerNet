@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/KariyerNet/">
+    <Project Path="KariyerNet/KariyerNet.API.csproj" />
+  </Folder>
+  <Project Path="KariyerNet.Application/KariyerNet.Application.csproj" />
+  <Project Path="KariyerNet.Domain/KariyerNet.Domain.csproj" />
+  <Project Path="KariyerNet.Infrastructure/KariyerNet.Infrastructure.csproj" />
+</Solution>

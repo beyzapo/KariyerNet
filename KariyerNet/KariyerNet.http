@@ -1,0 +1,6 @@
+@KariyerNet_HostAddress = http://localhost:5161
+
+GET {{KariyerNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

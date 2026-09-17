@@ -4,3 +4,11 @@ GET {{KariyerNet_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+POST {{KariyerNet_HostAddress}}/api/Auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Ahmet Yılmaz",
+  "email": "ahmet@mail.com",
+  "password": "sifre123"
+}

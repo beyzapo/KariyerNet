@@ -1,6 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using KariyerNet.Infrastructure.Persistence;
 
+using KariyerNet.Application.Interfaces;
+using KariyerNet.Infrastructure.Repositories;
+using KariyerNet.Application.Services;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,7 +15,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddOpenApi();
 

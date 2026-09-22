@@ -1,0 +1,22 @@
+$kind: http-request
+name:  İş İlanı Oluştur
+description: ""
+url: http://localhost:5161/api/JobPostings
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\":\"Test Mühendisi\",\r
+
+    \    \"description\":\"Test Mühendisi arıyoruz\",\r
+
+    \    \"requirements\" : \"TEST\"\r
+
+    \r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{employertoken}}"

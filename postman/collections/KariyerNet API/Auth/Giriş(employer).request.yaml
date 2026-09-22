@@ -1,0 +1,24 @@
+$kind: http-request
+name: 'Giriş(employer)'
+description: ""
+url: http://localhost:5161/api/Auth/login
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "email":"isveren@test.com",
+        "password":"123456"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: '{{employertoken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const json = pm.response.json();
+      if (json && json.token) {
+        pm.environment.set("employertoken", json.token);
+      }

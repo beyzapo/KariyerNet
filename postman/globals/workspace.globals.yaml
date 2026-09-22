@@ -1,0 +1,26 @@
+name: Globals
+values:
+  - key: beyza
+    enabled: true
+    secret: true
+  - key: elif
+    enabled: true
+    secret: true
+  - key: elif
+    enabled: true
+    secret: true
+  - key: employer token
+    enabled: true
+    secret: true
+  - key: employer token
+    enabled: true
+    secret: true
+  - key: candidate token
+    enabled: true
+    secret: true
+  - key: employertoken
+    enabled: true
+    secret: true
+  - key: candidatetoken
+    enabled: true
+    secret: true

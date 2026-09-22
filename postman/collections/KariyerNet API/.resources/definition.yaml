@@ -1,0 +1,8 @@
+$kind: collection
+variables:
+  - key: candidatetoken
+    secret: true
+    disabled: false
+  - key: ""
+    value: ""
+    disabled: false

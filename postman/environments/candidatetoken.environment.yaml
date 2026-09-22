@@ -1,0 +1,6 @@
+name: candidatetoken
+values:
+  - key: candidatetoken
+    value: fb995f7e-f0aa-4b86-b1f0-7c8e1b40cc98
+  - key: employertoken
+    secret: true

@@ -1,0 +1,11 @@
+name: New Environment
+values:
+  - key: employertoken
+    secret: true
+  - key: employertoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: employertoken
+    secret: true
+color: 240

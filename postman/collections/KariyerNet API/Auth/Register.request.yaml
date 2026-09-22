@@ -1,0 +1,22 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/Auth/register
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"fullName\":\"Test test\",\r
+
+    \    \"email\":\"test@test.com\",\r
+
+    \    \"password\":\"1234567\",\r
+
+    \    \"role\":\"Employer\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{employertoken}}"
+order: 2321003814322175

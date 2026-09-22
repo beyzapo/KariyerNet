@@ -1,0 +1,17 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/CandidateProfile
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: cvFile
+      src:
+        - postman-cloud:///1f1b6771-f2af-4b30-8907-3c613299173e
+      description: ""
+      disabled: false
+auth:
+  type: bearer
+  credentials:
+    token: "{{candidatetoken}}"

@@ -1,0 +1,13 @@
+$kind: http-request
+name: Başvuruları Listele (Employer)
+description: ""
+url: http://localhost:5161/api/JobApplications/posting/b1671add-6835-4b40-9914-0515f62d8fc7
+method: GET
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{employertoken}}"
+order: 4005952316506111

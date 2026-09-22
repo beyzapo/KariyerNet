@@ -1,0 +1,15 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/JobApplications
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"jobPostingId\": \"b1671add-6835-4b40-9914-0515f62d8fc7\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{candidatetoken}}"

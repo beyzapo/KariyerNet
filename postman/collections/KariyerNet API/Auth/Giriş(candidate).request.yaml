@@ -1,0 +1,25 @@
+$kind: http-request
+name: 'Giriş(candidate)'
+description: ""
+url: http://localhost:5161/api/Auth/login
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "email":"aday@test.com",
+        "password":"123456"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: '{{candidatetoken}}'
+order: 994096649863167
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const json = pm.response.json();
+      if (json && json.token) {
+        pm.environment.set("candidatetoken", json.token);
+      }

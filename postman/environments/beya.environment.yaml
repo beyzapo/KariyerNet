@@ -1,0 +1,30 @@
+name: beya
+values:
+  - key: candidate
+    secret: true
+  - key: candidate
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: employertoken
+    secret: true
+  - key: employertoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: employertoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: employertoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: candidatetoken
+    secret: true
+  - key: candidatetoken
+    secret: true

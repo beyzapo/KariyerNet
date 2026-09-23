@@ -71,6 +71,9 @@ artifacts/
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
+# Uploaded CV files
+Uploads/
+
 # StyleCop
 StyleCopReport.xml
 

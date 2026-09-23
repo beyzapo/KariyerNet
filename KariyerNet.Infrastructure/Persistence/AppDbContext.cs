@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using KariyerNet.Domain.Entities;
 
 namespace KariyerNet.Infrastructure.Persistence
@@ -42,6 +39,12 @@ namespace KariyerNet.Infrastructure.Persistence
                 .WithMany()
                 .HasForeignKey(cp => cp.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CandidateProfile>()
+                .HasIndex(cp => cp.UserId)
+                .IsUnique();
+            modelBuilder.Entity<JobApplication>()
+                .HasIndex(ja => new { ja.CandidateId, ja.JobPostingId })
+                .IsUnique();
             base.OnModelCreating(modelBuilder);
         }
 

@@ -1,0 +1,12 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/JobApplications/me
+method: GET
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{candidatetoken}}"
+order: 1372825504972799

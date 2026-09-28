@@ -4,9 +4,9 @@ url: http://localhost:5161/api/JobApplications/9c0aeac0-17ca-4635-baf5-afad2be8a
 method: PUT
 body:
   type: json
-  content: "{\r\n  \"status\": \"Accepted\"\r\n}"
+  content: "{\r\n  \"status\":\"Rejected\"\r\n}"
 auth:
   type: bearer
   credentials:
     token: "{{employertoken}}"
-order: 1827090875809791
+order: 2028657573887999

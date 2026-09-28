@@ -1,5 +1,5 @@
 $kind: http-request
-name:  İş İlanı Oluştur
+name: İş İlanı Oluştur
 description: ""
 url: http://localhost:5161/api/JobPostings
 method: POST
@@ -7,11 +7,11 @@ body:
   type: json
   content: "{\r
 
-    \    \"title\":\"Test Mühendisi\",\r
+    \    \"title\":\"mekatronik Mühendisi\",\r
 
-    \    \"description\":\"Test Mühendisi arıyoruz\",\r
+    \    \"description\":\"mekatronik Mühendisi arıyoruz\",\r
 
-    \    \"requirements\" : \"TEST\"\r
+    \    \"requirements\" : \"mekatronik\"\r
 
     \r
 

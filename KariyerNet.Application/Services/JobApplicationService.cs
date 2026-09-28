@@ -2,6 +2,7 @@ using KariyerNet.Application.DTOs;
 using KariyerNet.Application.Interfaces;
 using KariyerNet.Domain.Entities;
 
+
 namespace KariyerNet.Application.Services
 {
     public class JobApplicationService
@@ -10,17 +11,20 @@ namespace KariyerNet.Application.Services
         private readonly IJobPostingRepository _jobPostingRepository;
         private readonly ICandidateProfileRepository _candidateProfileRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IAgentClient  _agentClient;
 
         public JobApplicationService(
             IJobApplicationRepository jobApplicationRepository,
             IJobPostingRepository jobPostingRepository,
             ICandidateProfileRepository candidateProfileRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IAgentClient agentClient)
         {
             _jobApplicationRepository = jobApplicationRepository;
             _jobPostingRepository = jobPostingRepository;
             _candidateProfileRepository = candidateProfileRepository;
             _userRepository = userRepository;
+            _agentClient = agentClient;
         }
 
         public async Task<JobApplicationSummaryDto> ApplyAsync(Guid candidateId, CreateJobApplicationDto dto)
@@ -55,29 +59,45 @@ namespace KariyerNet.Application.Services
             await _jobApplicationRepository.AddAsync(application);
             await _jobApplicationRepository.SaveChangesAsync();
 
-            var candidate = await _userRepository.GetByIdAsync(candidateId);
-            if (candidate == null)
+            try
             {
-                throw new KeyNotFoundException("Aday bulunamadı.");
-            }
+                var fullCvPath = Path.Combine(Directory.GetCurrentDirectory(), candidateProfile.CvFilePath);
+                var matchResult = await _agentClient.MatchCandidateToJobAsync(
+                    fullCvPath, jobPosting.Title, jobPosting.Description, jobPosting.Requirements);
 
+                application.MatchScore = matchResult.CompatibilityScore;
+                application.AiExplanation = matchResult.Explanation;
+                application.CandidateAiExplanation=matchResult.CandidateExplanation;
+                application.AiEvaluatedAt = DateTime.UtcNow;
+
+                await _jobApplicationRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Agent değerlendirmesi başarısız: {ex.Message}");
+            }
+            var candidate = await _userRepository.GetByIdAsync(candidateId);
             return new JobApplicationSummaryDto
             {
                 Id = application.Id,
                 CandidateId = application.CandidateId,
                 JobPostingId = application.JobPostingId,
                 JobPostingTitle = jobPosting.Title,
-                CandidateFullName = candidate.FullName,
-                CandidateEmail = candidate.Email,
+                CandidateFullName = candidate?.FullName ?? string.Empty,
+                CandidateEmail = candidate?.Email ?? string.Empty,
                 Status = application.Status.ToString(),
                 AppliedAt = application.AppliedAt,
-                HasCv = true
+                HasCv = true,
+                MatchScore = application.MatchScore,
+                AiExplanation = application.CandidateAiExplanation
             };
         }
 
         public async Task<List<JobApplicationSummaryDto>> GetMineAsync(Guid candidateId)
         {
             var applications = await _jobApplicationRepository.GetByCandidateIdAsync(candidateId);
+            var candidateProfile = await _candidateProfileRepository.GetByUserIdAsync(candidateId);
+            var hasCv = candidateProfile != null && !string.IsNullOrWhiteSpace(candidateProfile.CvFilePath);
             return applications.Select(app => new JobApplicationSummaryDto
             {
                 Id = app.Id,
@@ -87,7 +107,10 @@ namespace KariyerNet.Application.Services
                 CandidateFullName = app.Candidate.FullName,
                 CandidateEmail = app.Candidate.Email,
                 Status = app.Status.ToString(),
-                AppliedAt = app.AppliedAt
+                AppliedAt = app.AppliedAt,
+                HasCv=hasCv,
+                MatchScore = app.MatchScore,
+                AiExplanation = app.CandidateAiExplanation
             }).ToList();
         }
 
@@ -120,7 +143,9 @@ namespace KariyerNet.Application.Services
                 Status = app.Status.ToString(),
                 AppliedAt = app.AppliedAt,
                 HasCv = profilesByUserId.TryGetValue(app.CandidateId, out var profile)
-                    && !string.IsNullOrWhiteSpace(profile.CvFilePath)
+                    && !string.IsNullOrWhiteSpace(profile.CvFilePath),
+                MatchScore = app.MatchScore,           
+                AiExplanation = app.AiExplanation
             }).ToList();
         }
 

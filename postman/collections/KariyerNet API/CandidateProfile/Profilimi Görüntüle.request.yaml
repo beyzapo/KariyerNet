@@ -1,0 +1,18 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/CandidateProfile/me
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\":\"aday@test.com\",\r
+
+    \    \"password\":\"123456\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{candidatetoken}}"
+order: 2445847122935807

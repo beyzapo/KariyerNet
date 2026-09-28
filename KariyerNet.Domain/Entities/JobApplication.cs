@@ -22,5 +22,9 @@ namespace KariyerNet.Domain.Entities
 
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Pending; //firstly status of the application is pending, then it can be accepted or rejected by the employer
         public DateTime AppliedAt { get; set; } = DateTime.UtcNow; //timestamp for when the application was submitted
+        public int? MatchScore { get; set; }
+        public string? AiExplanation { get; set; }
+        public string? CandidateAiExplanation { get; set; }
+        public DateTime? AiEvaluatedAt { get; set; }
     }
 }

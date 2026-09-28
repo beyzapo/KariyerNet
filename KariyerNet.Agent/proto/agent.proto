@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package kariyernet.agent;
+
+// Python ve .NET tarafında otomatik üretilecek namespace/paket isimleri
+option csharp_namespace = "KariyerNet.Agent.Grpc";
+
+service AgentService {
+  // Sadece CV metnini analiz eder: beceriler, deneyim seviyesi, özet çıkarır
+  rpc AnalyzeCv (AnalyzeCvRequest) returns (AnalyzeCvResponse);
+
+  // CV ile ilanı karşılaştırır, uyumluluk skoru ve açıklama üretir
+  rpc MatchCandidateToJob (MatchRequest) returns (MatchResponse);
+}
+
+message AnalyzeCvRequest {
+  bytes cv_file = 1;        // dosyanın ham içeriği
+  string mime_type = 2;     // "application/pdf" gibi
+}
+
+message AnalyzeCvResponse {
+  repeated string skills = 1;
+  string experience_level = 2;   // "Junior", "Mid", "Senior" gibi
+  string summary = 3;            // 1-2 cümlelik özet
+  repeated string suggestions = 4; 
+}
+
+message MatchRequest {
+  bytes cv_file = 1;        // dosyanın ham içeriği
+  string mime_type = 2;     // "application/pdf" gibi
+  string job_title = 3;
+  string job_description = 4;
+  string job_requirements = 5;
+}
+
+message MatchResponse {
+  int32 compatibility_score = 1;      // 0-100 arası
+  string explanation = 2;             // neden bu skor verildi
+  string candidate_explanation= 3;
+  repeated string matching_skills = 4;  // ilanla eşleşen beceriler
+  repeated string missing_skills = 5;   // ilanda istenip CV'de olmayanlar
+}

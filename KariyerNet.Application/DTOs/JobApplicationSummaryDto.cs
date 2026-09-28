@@ -11,5 +11,7 @@ namespace KariyerNet.Application.DTOs
         public string Status { get; set; } = default!;
         public DateTime AppliedAt { get; set; }
         public bool HasCv { get; set; }
+        public int? MatchScore { get; set; }
+        public string? AiExplanation { get; set; }
     }
 }

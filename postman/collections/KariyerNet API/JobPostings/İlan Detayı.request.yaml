@@ -1,0 +1,8 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/JobPostings/5983971f-331a-4026-bd97-b8bfb06faa38
+method: GET
+body:
+  type: json
+  content: ""
+order: 3743245829931007

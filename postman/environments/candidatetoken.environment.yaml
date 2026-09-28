@@ -4,3 +4,5 @@ values:
     secret: true
   - key: employertoken
     secret: true
+  - key: candidatetoken
+    secret: true

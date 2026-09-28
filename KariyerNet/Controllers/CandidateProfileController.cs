@@ -124,5 +124,23 @@ namespace KariyerNet.API.Controllers
 
             return Ok(new { profile.Id, profile.UserId, profile.CvFilePath, profile.CvUploadedAt });
         }
+        [HttpPost("me/analyze")]
+        public async Task<IActionResult> AnalyzeMyCv()
+        {       
+        try
+        {
+            var result = await _candidateProfileService.AnalyzeCvAsync(
+                User.GetUserId(), _environment.ContentRootPath);
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
+        catch (FileNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        }
     }
 }

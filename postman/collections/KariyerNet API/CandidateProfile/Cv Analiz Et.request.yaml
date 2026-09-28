@@ -1,0 +1,9 @@
+$kind: http-request
+description: ""
+url: http://localhost:5161/api/CandidateProfile/me/analyze
+method: POST
+auth:
+  type: bearer
+  credentials:
+    token: "{{candidatetoken}}"
+order: 2505526272327679

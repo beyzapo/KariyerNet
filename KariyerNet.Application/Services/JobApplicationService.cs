@@ -28,7 +28,6 @@ namespace KariyerNet.Application.Services
             _agentClient = agentClient;
             _evaluationQueue = evaluationQueue;
         }
-
         public async Task<JobApplicationSummaryDto> ApplyAsync(Guid candidateId, CreateJobApplicationDto dto)
         {
             var candidateProfile = await _candidateProfileRepository.GetByUserIdAsync(candidateId);
@@ -43,30 +42,49 @@ namespace KariyerNet.Application.Services
                 throw new KeyNotFoundException("İlan bulunamadı.");
             }
 
-            var existingApplication = await _jobApplicationRepository.GetByCandidateAndPostingAsync(candidateId, dto.JobPostingId);
-            if (existingApplication != null)
-            {
-                throw new InvalidOperationException("Bu ilana zaten başvurdunuz.");
-            }
+            var application = await _jobApplicationRepository.GetByCandidateAndPostingAsync(candidateId, dto.JobPostingId);
 
-            var application = new JobApplication
+            if (application == null)
+            {
+                application = new JobApplication
             {
                 Id = Guid.NewGuid(),
                 CandidateId = candidateId,
                 JobPostingId = dto.JobPostingId,
                 Status = ApplicationStatus.Pending,
                 AppliedAt = DateTime.UtcNow
-            };
+         };
 
             await _jobApplicationRepository.AddAsync(application);
+             }
+            else
+            {
+                switch (application.Status)
+                {
+                case ApplicationStatus.Pending:
+                    throw new InvalidOperationException("Başvurunuz zaten değerlendirme aşamasında.");
+                case ApplicationStatus.Accepted:
+                    throw new InvalidOperationException("Bu ilana başvurunuz zaten kabul edildi.");
+                case ApplicationStatus.Rejected:
+                // Reddedilen aday tekrar başvurabilir: aynı kaydı sıfırla
+                    application.Status = ApplicationStatus.Pending;
+                    application.AppliedAt = DateTime.UtcNow;
+                    application.MatchScore = null;
+                    application.AiExplanation = null;
+                    application.CandidateAiExplanation = null;
+                    application.AiEvaluatedAt = null;
+                    break;
+                }
+            }
+
             await _jobApplicationRepository.SaveChangesAsync();
 
-            // AI değerlendirmesi arka planda yapılır, aday beklemez
+    // AI değerlendirmesi arka planda yapılır, aday beklemez
             await _evaluationQueue.EnqueueAsync(application.Id);
 
             var candidate = await _userRepository.GetByIdAsync(candidateId);
 
-            return new JobApplicationSummaryDto
+             return new JobApplicationSummaryDto
             {
                 Id = application.Id,
                 CandidateId = application.CandidateId,
@@ -79,7 +97,7 @@ namespace KariyerNet.Application.Services
                 HasCv = true
             };
         }
-
+        
         public async Task EvaluateAsync(Guid applicationId, string contentRootPath)
         {
             var application = await _jobApplicationRepository.GetByIdAsync(applicationId);

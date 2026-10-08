@@ -78,5 +78,39 @@ namespace KariyerNet.Infrastructure.Agent
                 Suggestions = response.Suggestions.ToList()
             };
         }
+        public async Task<List<JobRecommendationResult>> RecommendJobsAsync(string cvFilePath, List<JobInfoInput> jobs)
+        {
+            var fileBytes = await File.ReadAllBytesAsync(cvFilePath);
+            var mimeType = GetMimeType(cvFilePath);
+
+            using var channel = GrpcChannel.ForAddress(_agentServiceUrl);
+            var client = new AgentService.AgentServiceClient(channel);
+
+            var request = new RecommendJobsRequest
+            {
+                CvFile = Google.Protobuf.ByteString.CopyFrom(fileBytes),
+                MimeType = mimeType
+            };
+
+            foreach (var job in jobs)
+            {
+            request.Jobs.Add(new JobInfo
+            {
+                Id = job.Id.ToString(),
+                Title = job.Title,
+                Description = job.Description,
+                Requirements = job.Requirements
+            });
     }
+
+            var response = await client.RecommendJobsAsync(request);
+
+            return response.Recommendations.Select(r => new JobRecommendationResult
+            {
+                JobId = Guid.TryParse(r.JobId, out var id) ? id : Guid.Empty,
+                Score = r.Score,
+                Reason = r.Reason
+            }).Where(r => r.JobId != Guid.Empty).ToList();
+        }
+        }
 }

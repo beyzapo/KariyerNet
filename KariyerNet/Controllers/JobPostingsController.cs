@@ -11,12 +11,14 @@ namespace KariyerNet.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class JobPostingsController : ControllerBase
-    {
+    {  
+        private readonly IWebHostEnvironment _environment;
         private readonly JobPostingService _jobPostingService;
         private readonly IValidator<CreateJobPostingDto> _validator;
 
-        public JobPostingsController(JobPostingService jobPostingService, IValidator<CreateJobPostingDto> validator)
+        public JobPostingsController(IWebHostEnvironment environment, JobPostingService jobPostingService, IValidator<CreateJobPostingDto> validator)
         {
+            _environment = environment;     
             _jobPostingService = jobPostingService;
             _validator = validator;
         }
@@ -55,6 +57,25 @@ namespace KariyerNet.API.Controllers
         {
             var jobPosting = await _jobPostingService.GetByIdAsync(id);
             return Ok(jobPosting);
+        }
+        [HttpGet("recommended")]
+        [Authorize(Roles = "Candidate")]
+        public async Task<IActionResult> GetRecommended()
+        {
+            try
+            {
+                var result = await _jobPostingService.GetRecommendedAsync(
+                    User.GetUserId(), _environment.ContentRootPath);
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (FileNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
     }
 }

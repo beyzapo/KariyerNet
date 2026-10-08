@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61gent.proto\x12\x10kariyernet.agent\"6\n\x10\x41nalyzeCvRequest\x12\x0f\n\x07\x63v_file\x18\x01 \x01(\x0c\x12\x11\n\tmime_type\x18\x02 \x01(\t\"c\n\x11\x41nalyzeCvResponse\x12\x0e\n\x06skills\x18\x01 \x03(\t\x12\x18\n\x10\x65xperience_level\x18\x02 \x01(\t\x12\x0f\n\x07summary\x18\x03 \x01(\t\x12\x13\n\x0bsuggestions\x18\x04 \x03(\t\"x\n\x0cMatchRequest\x12\x0f\n\x07\x63v_file\x18\x01 \x01(\x0c\x12\x11\n\tmime_type\x18\x02 \x01(\t\x12\x11\n\tjob_title\x18\x03 \x01(\t\x12\x17\n\x0fjob_description\x18\x04 \x01(\t\x12\x18\n\x10job_requirements\x18\x05 \x01(\t\"\x91\x01\n\rMatchResponse\x12\x1b\n\x13\x63ompatibility_score\x18\x01 \x01(\x05\x12\x13\n\x0b\x65xplanation\x18\x02 \x01(\t\x12\x1d\n\x15\x63\x61ndidate_explanation\x18\x03 \x01(\t\x12\x17\n\x0fmatching_skills\x18\x04 \x03(\t\x12\x16\n\x0emissing_skills\x18\x05 \x03(\t2\xbc\x01\n\x0c\x41gentService\x12T\n\tAnalyzeCv\x12\".kariyernet.agent.AnalyzeCvRequest\x1a#.kariyernet.agent.AnalyzeCvResponse\x12V\n\x13MatchCandidateToJob\x12\x1e.kariyernet.agent.MatchRequest\x1a\x1f.kariyernet.agent.MatchResponseB\x18\xaa\x02\x15KariyerNet.Agent.Grpcb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61gent.proto\x12\x10kariyernet.agent\"6\n\x10\x41nalyzeCvRequest\x12\x0f\n\x07\x63v_file\x18\x01 \x01(\x0c\x12\x11\n\tmime_type\x18\x02 \x01(\t\"c\n\x11\x41nalyzeCvResponse\x12\x0e\n\x06skills\x18\x01 \x03(\t\x12\x18\n\x10\x65xperience_level\x18\x02 \x01(\t\x12\x0f\n\x07summary\x18\x03 \x01(\t\x12\x13\n\x0bsuggestions\x18\x04 \x03(\t\"x\n\x0cMatchRequest\x12\x0f\n\x07\x63v_file\x18\x01 \x01(\x0c\x12\x11\n\tmime_type\x18\x02 \x01(\t\x12\x11\n\tjob_title\x18\x03 \x01(\t\x12\x17\n\x0fjob_description\x18\x04 \x01(\t\x12\x18\n\x10job_requirements\x18\x05 \x01(\t\"\x91\x01\n\rMatchResponse\x12\x1b\n\x13\x63ompatibility_score\x18\x01 \x01(\x05\x12\x13\n\x0b\x65xplanation\x18\x02 \x01(\t\x12\x1d\n\x15\x63\x61ndidate_explanation\x18\x03 \x01(\t\x12\x17\n\x0fmatching_skills\x18\x04 \x03(\t\x12\x16\n\x0emissing_skills\x18\x05 \x03(\t\"O\n\x07JobInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x14\n\x0crequirements\x18\x04 \x01(\t\"c\n\x14RecommendJobsRequest\x12\x0f\n\x07\x63v_file\x18\x01 \x01(\x0c\x12\x11\n\tmime_type\x18\x02 \x01(\t\x12\'\n\x04jobs\x18\x03 \x03(\x0b\x32\x19.kariyernet.agent.JobInfo\"B\n\x11JobRecommendation\x12\x0e\n\x06job_id\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\x05\x12\x0e\n\x06reason\x18\x03 \x01(\t\"U\n\x15RecommendJobsResponse\x12<\n\x0frecommendations\x18\x01 \x03(\x0b\x32#.kariyernet.agent.JobRecommendation2\x9e\x02\n\x0c\x41gentService\x12T\n\tAnalyzeCv\x12\".kariyernet.agent.AnalyzeCvRequest\x1a#.kariyernet.agent.AnalyzeCvResponse\x12V\n\x13MatchCandidateToJob\x12\x1e.kariyernet.agent.MatchRequest\x1a\x1f.kariyernet.agent.MatchResponse\x12`\n\rRecommendJobs\x12&.kariyernet.agent.RecommendJobsRequest\x1a\'.kariyernet.agent.RecommendJobsResponseB\x18\xaa\x02\x15KariyerNet.Agent.Grpcb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -40,6 +40,14 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_MATCHREQUEST']._serialized_end=310
   _globals['_MATCHRESPONSE']._serialized_start=313
   _globals['_MATCHRESPONSE']._serialized_end=458
-  _globals['_AGENTSERVICE']._serialized_start=461
-  _globals['_AGENTSERVICE']._serialized_end=649
+  _globals['_JOBINFO']._serialized_start=460
+  _globals['_JOBINFO']._serialized_end=539
+  _globals['_RECOMMENDJOBSREQUEST']._serialized_start=541
+  _globals['_RECOMMENDJOBSREQUEST']._serialized_end=640
+  _globals['_JOBRECOMMENDATION']._serialized_start=642
+  _globals['_JOBRECOMMENDATION']._serialized_end=708
+  _globals['_RECOMMENDJOBSRESPONSE']._serialized_start=710
+  _globals['_RECOMMENDJOBSRESPONSE']._serialized_end=795
+  _globals['_AGENTSERVICE']._serialized_start=798
+  _globals['_AGENTSERVICE']._serialized_end=1084
 # @@protoc_insertion_point(module_scope)

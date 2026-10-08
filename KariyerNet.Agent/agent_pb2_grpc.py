@@ -44,6 +44,11 @@ class AgentServiceStub:
                 request_serializer=agent__pb2.MatchRequest.SerializeToString,
                 response_deserializer=agent__pb2.MatchResponse.FromString,
                 _registered_method=True)
+        self.RecommendJobs = channel.unary_unary(
+                '/kariyernet.agent.AgentService/RecommendJobs',
+                request_serializer=agent__pb2.RecommendJobsRequest.SerializeToString,
+                response_deserializer=agent__pb2.RecommendJobsResponse.FromString,
+                _registered_method=True)
 
 
 class AgentServiceServicer:
@@ -63,6 +68,12 @@ class AgentServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RecommendJobs(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AgentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -75,6 +86,11 @@ def add_AgentServiceServicer_to_server(servicer, server):
                     servicer.MatchCandidateToJob,
                     request_deserializer=agent__pb2.MatchRequest.FromString,
                     response_serializer=agent__pb2.MatchResponse.SerializeToString,
+            ),
+            'RecommendJobs': grpc.unary_unary_rpc_method_handler(
+                    servicer.RecommendJobs,
+                    request_deserializer=agent__pb2.RecommendJobsRequest.FromString,
+                    response_serializer=agent__pb2.RecommendJobsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -131,6 +147,33 @@ class AgentService:
             '/kariyernet.agent.AgentService/MatchCandidateToJob',
             agent__pb2.MatchRequest.SerializeToString,
             agent__pb2.MatchResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RecommendJobs(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/kariyernet.agent.AgentService/RecommendJobs',
+            agent__pb2.RecommendJobsRequest.SerializeToString,
+            agent__pb2.RecommendJobsResponse.FromString,
             options,
             channel_credentials,
             insecure,

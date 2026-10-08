@@ -1,5 +1,19 @@
 namespace KariyerNet.Application.Interfaces
 {
+    public class JobInfoInput
+    {
+    public Guid Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string Requirements { get; set; } = string.Empty;
+    }
+
+    public class JobRecommendationResult
+    {
+    public Guid JobId { get; set; }
+    public int Score { get; set; }
+    public string Reason { get; set; } = string.Empty;
+    }
     public class AgentMatchResult
     {
         public int CompatibilityScore { get; set; }
@@ -23,5 +37,6 @@ namespace KariyerNet.Application.Interfaces
             string cvFilePath, string jobTitle, string jobDescription, string jobRequirements);
 
         Task<AgentCvAnalysisResult> AnalyzeCvAsync(string cvFilePath);
+        Task<List<JobRecommendationResult>> RecommendJobsAsync(string cvFilePath, List<JobInfoInput> jobs);
     }
 }

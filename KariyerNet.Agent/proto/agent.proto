@@ -11,6 +11,7 @@ service AgentService {
 
   // CV ile ilanı karşılaştırır, uyumluluk skoru ve açıklama üretir
   rpc MatchCandidateToJob (MatchRequest) returns (MatchResponse);
+  rpc RecommendJobs (RecommendJobsRequest) returns (RecommendJobsResponse);
 }
 
 message AnalyzeCvRequest {
@@ -39,4 +40,26 @@ message MatchResponse {
   string candidate_explanation= 3;
   repeated string matching_skills = 4;  // ilanla eşleşen beceriler
   repeated string missing_skills = 5;   // ilanda istenip CV'de olmayanlar
+}
+message JobInfo {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string requirements = 4;
+}
+
+message RecommendJobsRequest {
+  bytes cv_file = 1;
+  string mime_type = 2;
+  repeated JobInfo jobs = 3;
+}
+
+message JobRecommendation {
+  string job_id = 1;
+  int32 score = 2;
+  string reason = 3;
+}
+
+message RecommendJobsResponse {
+  repeated JobRecommendation recommendations = 1;
 }

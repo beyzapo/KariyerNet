@@ -13,6 +13,7 @@ using KariyerNet.Infrastructure.Security;
 using KariyerNet.Application.Services;
 using KariyerNet.Application.Validators;
 using KariyerNet.Infrastructure.Agent;
+using KariyerNet.API.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,9 @@ builder.Services.AddScoped<JobPostingService>();
 builder.Services.AddScoped<JobApplicationService>();
 builder.Services.AddValidatorsFromAssemblyContaining<LoginUserDtoValidator>();
 builder.Services.AddScoped<IAgentClient, AgentClient>();
+builder.Services.AddSingleton<EvaluationQueue>();
+builder.Services.AddSingleton<IEvaluationQueue>(sp => sp.GetRequiredService<EvaluationQueue>());
+builder.Services.AddHostedService<EvaluationWorker>();
 builder.Services.AddOpenApi();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
